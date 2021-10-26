@@ -1,0 +1,26 @@
+---
+administrator: Frazer
+my_ansible_user: admin
+
+instance_1:
+  name: INTEGRAL
+  port: 8080
+  db_user: odoo
+  db_pass: odoo 
+
+instance_2:
+  name: TOTAL
+  port: 8081
+  db_user: odoo
+  db_pass: odoo
+
+instance_3:
+  name: SERVITEL
+  port: 8082
+  db_user: odoo
+  db_pass: odoo
+
+#possibility to configure simultaneous one, two or 3 BDD
+db_qty: 3
+list_db: True
+host_ip: 10.0.1.4
