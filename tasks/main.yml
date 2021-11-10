@@ -19,7 +19,6 @@
     company_name: "{{ instance_name }}"
     db_user: "{{ db_user }}"
     db_pass: "{{ db_pass }}"
-    cpy_port: "{{ port }}"
 
 - name: generate odoo_config_file 
   template:

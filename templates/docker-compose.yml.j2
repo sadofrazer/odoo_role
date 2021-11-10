@@ -5,8 +5,6 @@ services:
     container_name: "{{ company_name }}_odoo_web"
     depends_on:
       - {{ company_name }}_db
-    #ports:
-    #  - "{{ cpy_port }}:8069"
     tty: true
     command: -- --dev=reload
     restart: always
