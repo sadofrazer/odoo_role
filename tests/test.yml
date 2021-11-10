@@ -3,4 +3,4 @@
   remote_user: root
   become: true
   roles:
-    - odoo-role
+    - odoo_role
