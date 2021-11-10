@@ -2,7 +2,7 @@
 
 [![CI](icones/odoo_icon-100.png)](https://github.com/sadofrazer/ansible_odoo/tree/v1.0)
 
-An Ansible Role that installs up to three [odoo](https://www.odoo.com) instances on Linux , specially tailored for CentOS Distribution
+An Ansible Role that installs up to three [odoo](https://www.odoo.com) instances on Linux , specially tailored for Linux Distribution
 
 If you need a more flexible and generic role for deploying simultaneous 3 odoo instances for labs or any other needs, check out [`sadofrazer.ansible_odoo`](https://github.com/sadofrazer/ansible_odoo.git).
 
@@ -18,37 +18,14 @@ The administrator who realize the deploy
 
     administrator: Frazer
 
-The Instance 1 variables, uses to create ressources of this specific odoo instance
+The Odoo Instance  variables, uses to create ressources of this specific odoo instance
 
-    instance_1:
-      name: INTEGRAL
-      port: 8080
-      db_user: odoo
-      db_pass: odoo 
-
-
-The Instance 2 variables, uses to create ressources of this specific odoo instance    
-    
-    instance_2:
-      name: INTEGRAL
-      port: 8080
-      db_user: odoo
-      db_pass: odoo
-
-
-The Instance 2 variables, uses to create ressources of this specific odoo instance
-  
-    instance_3:
-      name: INTEGRAL
-      port: 8080
-      db_user: odoo
-      db_pass: odoo
-
-
-Specify the number of instances you need to deploy (`can be 1, 2 or 3`)    
-
-    #possibility to configure simultaneous one, two or 3 BDD
-    db_qty: 3
+    instance_name: INTEGRAL
+    port: 8080
+    db_user: odoo
+    db_pass: odoo
+    url_name: frazer-odoo.cloudapps-cm.com
+    email_address: sadofrazer@yahoo.fr 
 
 
 odoo parameter which permit user to manage database needs to be true when odoo DB doesn't exist    

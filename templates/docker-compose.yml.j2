@@ -5,16 +5,24 @@ services:
     container_name: "{{ company_name }}_odoo_web"
     depends_on:
       - {{ company_name }}_db
-    ports:
-      - "{{ cpy_port }}:8069"
+    #ports:
+    #  - "{{ cpy_port }}:8069"
+    tty: true
+    command: -- --dev=reload
+    restart: always
     environment:
       - HOST={{ company_name }}_db
       - USER={{ db_user }}
       - PASSWORD={{ db_pass }}
       - PORT=5432
+      - TZ=Europe/Paris
+      - VIRTUAL_HOST={{ url_name }}
+      - LETSENCRYPT_HOST={{ url_name }}
+      - VIRTUAL_PORT=8069
     volumes:
       - {{ company_name }}-web-data:/var/lib/odoo
       - /home/{{ ansible_user }}/odoo/o_config/{{ company_name }}.conf:/etc/odoo/odoo.conf
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - {{ administrator }}-network
 
@@ -26,14 +34,47 @@ services:
       - POSTGRES_PASSWORD={{ db_pass }}
       - POSTGRES_USER={{ db_user }}
       - PGDATA=/var/lib/postgresql/data/pgdata
+      - TZ=Europe/Paris
     volumes:
       - {{ company_name }}-db-data:/var/lib/postgresql/data/pgdata
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - {{ administrator }}-network
 
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - {{ administrator }}-network
+    environment:
+      DHPARAM_GENERATION: "false"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./etc/nginx/certs:/etc/nginx/certs
+      - ./etc/nginx/vhost.d:/etc/nginx/vhost.d
+      - nginx_proxy_html:/usr/share/nginx/html
+
+  nginx-proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-proxy-letsencrypt
+    networks:
+      - {{ administrator }}-network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./etc/nginx/certs:/etc/nginx/certs
+      - ./etc/nginx/vhost.d:/etc/nginx/vhost.d
+      - nginx_proxy_html:/usr/share/nginx/html
+    environment:
+      DEFAULT_EMAIL: {{ email_address }}
+      NGINX_PROXY_CONTAINER: nginx-proxy
+      
 networks:
   {{ administrator }}-network:
 
 volumes:
   {{ company_name }}-web-data:
   {{ company_name }}-db-data:
+  nginx_proxy_html:
