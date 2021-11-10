@@ -2,7 +2,7 @@
 administrator: Frazer
 my_ansible_user: admin
 instance_name: INTEGRAL
-port: 8080
+id_port: 8080
 db_user: odoo
 db_pass: odoo 
 url_name: frazer-odoo.cloudapps-cm.com
