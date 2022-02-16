@@ -2,11 +2,13 @@
   template:
     src: "install-docker.sh.j2"
     dest: "/home/{{ ansible_user }}/install-docker.sh"
+  when: ansible_docker0 is undefined
 
 - name: "Run docker script"
   command: "sh install-docker.sh"
   args:
     chdir: "/home/{{ ansible_user }}"
+  when: ansible_docker0 is undefined
 
 - name: create odoo_files
   file:
